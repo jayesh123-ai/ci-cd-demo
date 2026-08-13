@@ -10,17 +10,16 @@ pipeline {
         }
 
         stage('Test') {
-            steps {
-                sh '''
-                    python3 -m venv venv
-                    source venv/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
-                    pip install pytest
-                    pytest -v
-                '''
-            }
-        }
+    steps {
+        sh '''
+            python3 -m venv venv
+            ./venv/bin/pip install --upgrade pip
+            ./venv/bin/pip install -r requirements.txt
+            ./venv/bin/pip install pytest
+            PYTHONPATH=. ./venv/bin/pytest -v
+        '''
+    }
+}
 
         stage('Docker Build') {
             steps {
